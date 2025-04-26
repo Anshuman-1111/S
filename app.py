@@ -49,7 +49,9 @@ def get_ai_response(user_query, product_summaries):
     for prod in product_summaries:
         prompt += f"- {prod['title']} ({prod['source']}): {prod['snippet']} [Link]({prod['link']})\n"
     prompt += "\nAnswer the user's query conversationally, and mention the above products if relevant."
-    response = openai.ChatCompletion.create(
+
+    client = openai.OpenAI(api_key=OPENAI_API_KEY)
+    response = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[
             {"role": "system", "content": st.session_state["messages"][0]["content"]},
